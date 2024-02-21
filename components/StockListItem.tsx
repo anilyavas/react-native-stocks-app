@@ -1,30 +1,29 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import top5 from '@/assets/data/top5.json';
+import { Text, View } from './Themed';
 
-const StockListItem = ({
-  symbol,
-  name,
-  close,
-  percent_change,
-}: {
-  symbol: string;
+type Stock = {
   name: string;
-  close: string;
-  percent_change: string;
-}) => {
+  symbol: string;
+  close: number;
+  percent_change: number;
+};
+type StockListItem = {
+  stock: Stock;
+};
+const StockListItem = ({ stock }: StockListItem) => {
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
-        <Text style={styles.name}>{symbol}</Text>
+        <Text style={styles.name}>{stock.symbol}</Text>
         <AntDesign name='staro' size={20} color={'white'} />
         <View style={{ flex: 1 }} />
-        <Text style={styles.price}>${close}</Text>
+        <Text style={styles.price}>${stock.close}</Text>
       </View>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.brandName}>{name}</Text>
+        <Text style={styles.brandName}>{stock.name}</Text>
         <View style={{ flex: 1 }} />
-        <Text style={styles.percentage}>{percent_change}%</Text>
+        <Text style={styles.percentage}>{stock.percent_change}%</Text>
       </View>
     </View>
   );

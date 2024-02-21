@@ -10,14 +10,7 @@ export default function TabOneScreen() {
     <View style={styles.container}>
       <FlatList
         data={stocks}
-        renderItem={({ item }) => (
-          <StockListItem
-            symbol={item.symbol}
-            name={item.name}
-            percent_change={item.percent_change}
-            close={item.close}
-          />
-        )}
+        renderItem={({ item }) => <StockListItem stock={item} />}
       />
     </View>
   );
