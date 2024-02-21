@@ -1,29 +1,37 @@
 import { StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Text, View } from './Themed';
+import Colors from '@/constants/Colors';
+import { MonoText } from './StyledText';
 
 type Stock = {
   name: string;
   symbol: string;
-  close: number;
-  percent_change: number;
+  close: string;
+  percent_change: string;
 };
 type StockListItem = {
   stock: Stock;
 };
 const StockListItem = ({ stock }: StockListItem) => {
+  const change = Number.parseFloat(stock.percent_change);
+  const close = Number.parseFloat(stock.close);
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
-        <Text style={styles.name}>{stock.symbol}</Text>
-        <AntDesign name='staro' size={20} color={'white'} />
+        <Text style={styles.symbol}>
+          {stock.symbol} <AntDesign name='staro' size={18} color={'grey'} />
+        </Text>
         <View style={{ flex: 1 }} />
-        <Text style={styles.price}>${stock.close}</Text>
+        <MonoText style={{}}>${close.toFixed(1)}</MonoText>
       </View>
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
         <Text style={styles.brandName}>{stock.name}</Text>
         <View style={{ flex: 1 }} />
-        <Text style={styles.percentage}>{stock.percent_change}%</Text>
+        <MonoText style={{ color: change > 0 ? 'green' : 'red' }}>
+          {change > 0 ? '+' : ''}
+          {change.toFixed(1)}%
+        </MonoText>
       </View>
     </View>
   );
@@ -37,23 +45,14 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingBottom: 5,
   },
-  name: {
-    fontSize: 20,
+  symbol: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color: 'blue',
+    color: Colors.light.tint,
   },
-  price: {
-    fontSize: 20,
-    color: 'snow',
-    paddingRight: 10,
-  },
+
   brandName: {
     color: 'grey',
     fontSize: 15,
-  },
-  percentage: {
-    color: 'green',
-    fontSize: 20,
-    paddingRight: 10,
   },
 });
