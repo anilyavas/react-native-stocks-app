@@ -1,6 +1,6 @@
 import { StyleSheet, FlatList } from 'react-native';
 
-import { Text, View } from '@/components/Themed';
+import { View } from '@/components/Themed';
 import StockListItem from '@/components/StockListItem';
 import top5 from '@/assets/data/top5.json';
 
