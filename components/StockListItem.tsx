@@ -18,7 +18,7 @@ const StockListItem = ({ stock }: StockListItem) => {
   const change = Number.parseFloat(stock.percent_change);
   const close = Number.parseFloat(stock.close);
   return (
-    <Link href={'/stock'} asChild>
+    <Link href={`/${stock.symbol}`} asChild>
       <Pressable style={styles.container}>
         <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
           <Text style={styles.symbol}>
