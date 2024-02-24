@@ -6,11 +6,11 @@ import { useState } from 'react';
 import { MonoText } from './StyledText';
 
 const Graph = () => {
-  const [selectedPoint, setSelectedPoint] = useState<GraphPoint>();
   const points: GraphPoint[] = timeseries.values.map((value) => ({
     date: new Date(value.datetime),
     value: Number.parseFloat(value.close),
   }));
+  const [selectedPoint, setSelectedPoint] = useState<GraphPoint>();
 
   const onPointSelected = (point: GraphPoint) => {
     setSelectedPoint(point);
