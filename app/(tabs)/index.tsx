@@ -1,11 +1,35 @@
-import { StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
-import { View } from '@/components/Themed';
+import { View, Text } from '@/components/Themed';
 import StockListItem from '@/components/StockListItem';
 import top5 from '@/assets/data/top5.json';
+import { gql, useQuery } from '@apollo/client';
 
+const query = gql`
+  query MyQuery($symbol: String) {
+    quotes(symbol: $symbol) {
+      value {
+        name
+        symbol
+        percent_change
+        close
+      }
+    }
+  }
+`;
 export default function TabOneScreen() {
-  const stocks = Object.values(top5);
+  const { data, loading, error } = useQuery(query, {
+    variables: { symbol: 'AAPL,IBM,MSFT,GE,GM' },
+  });
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+  if (error) {
+    return <Text>Failed to fetch stocks</Text>;
+  }
+
+  const stocks = data.quotes.map((q) => q.value);
   return (
     <View style={styles.container}>
       <FlatList
