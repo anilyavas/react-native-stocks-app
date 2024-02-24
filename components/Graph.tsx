@@ -10,7 +10,9 @@ const Graph = () => {
     date: new Date(value.datetime),
     value: Number.parseFloat(value.close),
   }));
-  const [selectedPoint, setSelectedPoint] = useState<GraphPoint>();
+  const [selectedPoint, setSelectedPoint] = useState<GraphPoint>(
+    points[points.length - 1]
+  );
 
   const onPointSelected = (point: GraphPoint) => {
     setSelectedPoint(point);
@@ -33,6 +35,9 @@ const Graph = () => {
         gradientFillColors={['#0175605D', '#7476df00']}
         enablePanGesture
         onPointSelected={onPointSelected}
+        indicatorPulsating
+        enableFadeInMask
+        enableIndicator
       />
     </View>
   );
