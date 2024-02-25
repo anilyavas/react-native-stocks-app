@@ -32,7 +32,7 @@ const StockDetails = () => {
       <Stack.Screen
         options={{ title: stock.symbol, headerBackTitleVisible: false }}
       />
-      <Graph />
+      <Graph symbol={stock.symbol} />
     </View>
   );
 };
