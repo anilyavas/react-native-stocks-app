@@ -3,6 +3,7 @@ import { StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { View, Text } from '@/components/Themed';
 import StockListItem from '@/components/StockListItem';
 import { gql, useQuery } from '@apollo/client';
+import { Stack } from 'expo-router';
 
 const query = gql`
   query MyQuery($symbol: String) {
@@ -28,12 +29,14 @@ export default function TabOneScreen() {
     return <Text>Failed to fetch stocks</Text>;
   }
 
-  const stocks = data.quotes.map((q) => q.value);
+  const stocks = data.quotes.map((q: any) => q.value);
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ title: 'Stocks' }} />
       <FlatList
         data={stocks}
         renderItem={({ item }) => <StockListItem stock={item} />}
+        contentContainerStyle={{ padding: 10, gap: 20 }}
       />
     </View>
   );

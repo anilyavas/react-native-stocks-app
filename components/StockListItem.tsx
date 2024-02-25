@@ -1,9 +1,20 @@
-import { StyleSheet, Pressable } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
 import { Text, View } from './Themed';
-import Colors from '@/constants/Colors';
 import { MonoText } from './StyledText';
+import { StyleSheet, Pressable } from 'react-native';
+import Colors from '../constants/Colors';
+import { AntDesign } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { useMutation, gql } from '@apollo/client';
+
+const mutation = gql`
+  mutation MyMutation($symbol: String!, $user_id: String!) {
+    insertFavorites(symbol: $symbol, user_id: $user_id) {
+      id
+      symbol
+      user_id
+    }
+  }
+`;
 
 type Stock = {
   name: string;
@@ -11,25 +22,41 @@ type Stock = {
   close: string;
   percent_change: string;
 };
+
 type StockListItem = {
   stock: Stock;
 };
-const StockListItem = ({ stock }: StockListItem) => {
+
+export default function StockListItem({ stock }: StockListItem) {
+  const [runMutation] = useMutation(mutation, {
+    variables: { user_id: 'vadim', symbol: stock.symbol },
+  });
+
   const change = Number.parseFloat(stock.percent_change);
-  const close = Number.parseFloat(stock.close);
+
+  const onFavoritesPressed = () => {
+    runMutation();
+  };
+
   return (
     <Link href={`/${stock.symbol}`} asChild>
       <Pressable style={styles.container}>
-        <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
+        {/* Left container */}
+        <View style={{ flex: 1, gap: 5 }}>
           <Text style={styles.symbol}>
-            {stock.symbol} <AntDesign name='staro' size={18} color={'grey'} />
+            {stock.symbol}{' '}
+            <AntDesign
+              onPress={onFavoritesPressed}
+              name='staro'
+              size={18}
+              color='gray'
+            />
           </Text>
-          <View style={{ flex: 1 }} />
-          <MonoText style={{}}>${close.toFixed(1)}</MonoText>
+          <Text style={{ color: 'gray' }}>{stock.name}</Text>
         </View>
-        <View style={{ flexDirection: 'row', gap: 10, paddingBottom: 5 }}>
-          <Text style={styles.brandName}>{stock.name}</Text>
-          <View style={{ flex: 1 }} />
+        {/* Right container */}
+        <View style={{ alignItems: 'flex-end' }}>
+          <MonoText>${Number.parseFloat(stock.close).toFixed(1)}</MonoText>
           <MonoText style={{ color: change > 0 ? 'green' : 'red' }}>
             {change > 0 ? '+' : ''}
             {change.toFixed(1)}%
@@ -38,24 +65,15 @@ const StockListItem = ({ stock }: StockListItem) => {
       </Pressable>
     </Link>
   );
-};
-
-export default StockListItem;
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 5,
-    paddingBottom: 5,
+    flexDirection: 'row',
   },
   symbol: {
     fontSize: 18,
     fontWeight: 'bold',
     color: Colors.light.tint,
-  },
-
-  brandName: {
-    color: 'grey',
-    fontSize: 15,
   },
 });
