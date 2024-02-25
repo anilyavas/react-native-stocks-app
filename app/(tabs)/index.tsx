@@ -18,7 +18,7 @@ const query = gql`
 `;
 export default function TabOneScreen() {
   const { data, loading, error } = useQuery(query, {
-    variables: { symbol: 'AAPL,IBM,MSFT,GE,GM' },
+    variables: { symbol: 'AAPL,IBM,META,NVDA,TSLA,AMD' },
   });
 
   if (loading) {
