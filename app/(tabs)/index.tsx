@@ -2,7 +2,6 @@ import { StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 
 import { View, Text } from '@/components/Themed';
 import StockListItem from '@/components/StockListItem';
-import top5 from '@/assets/data/top5.json';
 import { gql, useQuery } from '@apollo/client';
 
 const query = gql`
